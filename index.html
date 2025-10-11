@@ -1,0 +1,38 @@
+--- create a webpage that can take a user's name as input and display a personalized greeting message. ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Greeting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p>Please enter your name:</p>
+    <input type="text" id="nameInput" placeholder="Your Name">
+    <button onclick="displayGreeting()">Greet Me!</button>
+    <h2 id="greetingMessage"></h2>
+    <script>
+        function displayGreeting() {
+            const name = document.getElementById('nameInput').value;
+            const greetingMessage = document.getElementById('greetingMessage');
+            if(name) {
+                greetingMessage.textContent = `Hello, ${name}! Welcome to our website!`;
+            } else {
+                greetingMessage.textContent = 'Please enter your name to receive a greeting.';
+            }
+        }
+
+    </script>
+</body>
+</html> 

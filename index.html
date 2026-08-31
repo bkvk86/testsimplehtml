@@ -1,38 +1,385 @@
-<!--- create a webpage that can take a user's name as input and display a personalized greeting message.! -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personalized Greeting</title>
+    <title>TechFlow - Digital Innovation Hub</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 50px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        input, button {
-            padding: 10px;
-            margin: 5px 0;
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #1a1a2e;
+            --accent-color: #ff006e;
+            --background: #0f3460;
+            --text-color: #e0e0e0;
+            --success: #00ff41;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--background) 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(26, 26, 46, 0.95);
+            border-bottom: 3px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex: 1;
+        }
+
+        nav button {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%);
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-section {
+            background: rgba(0, 212, 255, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+            color: var(--text-color);
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), #00a8cc);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+
+        #greetingMessage {
+            background: rgba(0, 255, 65, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--success);
+            color: var(--success);
+            min-height: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .chapter {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(255, 0, 110, 0.05));
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .chapter.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .chapter h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 1rem;
+        }
+
+        .chapter p {
+            margin-bottom: 1rem;
+            color: #c0c0c0;
+        }
+
+        .chapter ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .chapter li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            background: rgba(26, 26, 46, 0.95);
+            border-top: 3px solid var(--primary-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .input-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Welcome!</h1>
-    <p>Please enter your name:</p>
-    <input type="text" id="nameInput" placeholder="Your Name">
-    <button onclick="displayGreeting()">Greet Me!</button>
-    <h2 id="greetingMessage"></h2>
+    <header>
+        <div class="navbar">
+            <div class="logo">⚡ TechFlow</div>
+            <nav id="navContainer"></nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Welcome to TechFlow</h1>
+            <p>Your Gateway to Digital Innovation & Modern Web Development</p>
+        </section>
+
+        <section class="user-section">
+            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Personalized Experience</h3>
+            <div class="input-group">
+                <input type="text" id="nameInput" placeholder="Enter your name">
+                <input type="email" id="emailInput" placeholder="Enter your email">
+                <button class="btn" onclick="showGreeting()">Get Started</button>
+            </div>
+            <div id="greetingMessage"></div>
+        </section>
+
+        <div id="chaptersContainer"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 TechFlow - Digital Innovation Hub. Built with love and code.</p>
+    </footer>
+
     <script>
-        function displayGreeting() {
+        const chaptersData = [
+            {
+                id: 'ch1',
+                num: 1,
+                title: 'Getting Started with TechFlow',
+                content: '<p>Welcome to TechFlow! Learn the fundamentals of modern web development. TechFlow provides tools and knowledge for creating exceptional digital experiences.</p><ul><li>Fast and optimized</li><li>Beautiful designs</li><li>Secure framework</li></ul>'
+            },
+            {
+                id: 'ch2',
+                num: 2,
+                title: 'HTML5: The Foundation',
+                content: '<p>HTML5 is the latest standard for markup. Key features include semantic elements, better accessibility, and native media support.</p><ul><li>Semantic markup</li><li>Form improvements</li><li>Canvas and SVG</li><li>Audio and video</li></ul>'
+            },
+            {
+                id: 'ch3',
+                num: 3,
+                title: 'Advanced CSS Styling',
+                content: '<p>Modern CSS offers powerful features for creating beautiful interfaces. Master Flexbox, Grid, Animations, and CSS Variables.</p><ul><li>Flexbox layouts</li><li>CSS Grid</li><li>Animations</li><li>Transform effects</li><li>CSS Variables</li></ul>'
+            },
+            {
+                id: 'ch4',
+                num: 4,
+                title: 'JavaScript Fundamentals',
+                content: '<p>JavaScript is the programming language of the web. Essential concepts include variables, functions, objects, async programming, and DOM manipulation.</p><ul><li>Variables and types</li><li>Functions</li><li>Objects and arrays</li><li>Promises and async/await</li><li>DOM manipulation</li></ul>'
+            },
+            {
+                id: 'ch5',
+                num: 5,
+                title: 'Responsive Web Design',
+                content: '<p>Responsive design ensures websites work on all devices. Key principles: mobile-first approach, flexible grids, media queries, and flexible images.</p><ul><li>Mobile-first design</li><li>Flexible layouts</li><li>Media queries</li><li>Touch-friendly UI</li></ul>'
+            },
+            {
+                id: 'ch6',
+                num: 6,
+                title: 'Web Performance Optimization',
+                content: '<p>Performance is critical for user experience. Optimize through minification, image optimization, caching, code splitting, and critical rendering paths.</p><ul><li>Minification</li><li>Image optimization</li><li>Caching strategies</li><li>Code splitting</li><li>Server-side rendering</li></ul>'
+            },
+            {
+                id: 'ch7',
+                num: 7,
+                title: 'Modern JavaScript Frameworks',
+                content: '<p>Frameworks revolutionized web development with component-based architecture. Popular options include React, Vue, Angular, and Svelte.</p><ul><li>React - UI library</li><li>Vue - Progressive framework</li><li>Angular - Full framework</li><li>Svelte - Compiler-based</li></ul>'
+            },
+            {
+                id: 'ch8',
+                num: 8,
+                title: 'API Integration & Backend',
+                content: '<p>Modern apps require backend integration. Learn REST APIs, GraphQL, error handling, authentication, and security best practices.</p><ul><li>RESTful design</li><li>GraphQL</li><li>Authentication (OAuth, JWT)</li><li>Error handling</li><li>Rate limiting</li></ul>'
+            },
+            {
+                id: 'ch9',
+                num: 9,
+                title: 'Web Accessibility (A11Y)',
+                content: '<p>Accessibility ensures websites are usable by everyone. Follow WCAG guidelines for perceivable, operable, understandable, and robust design.</p><ul><li>Alt text for images</li><li>Keyboard navigation</li><li>Color contrast</li><li>Semantic HTML</li><li>Assistive tech support</li></ul>'
+            },
+            {
+                id: 'ch10',
+                num: 10,
+                title: 'Security Best Practices',
+                content: '<p>Web security protects user data and maintains trust. Key measures: HTTPS, XSS prevention, CSRF protection, SQL injection prevention, and CSP.</p><ul><li>HTTPS/SSL encryption</li><li>XSS prevention</li><li>CSRF protection</li><li>SQL injection prevention</li><li>Content Security Policy</li></ul>'
+            },
+            {
+                id: 'ch11',
+                num: 11,
+                title: 'Deployment & DevOps',
+                content: '<p>Deploying to production requires planning and automation. Use Docker, Kubernetes, CI/CD pipelines, and monitoring tools for reliability.</p><ul><li>Docker containers</li><li>Kubernetes</li><li>CI/CD pipelines</li><li>Infrastructure as Code</li><li>Monitoring tools</li></ul>'
+            },
+            {
+                id: 'ch12',
+                num: 12,
+                title: 'Future of Web Development',
+                content: '<p>The web is constantly evolving. Emerging trends include AI/ML integration, WebAssembly, Progressive Web Apps, Edge Computing, and Web3 technologies.</p><ul><li>AI and ML</li><li>WebAssembly</li><li>Progressive Web Apps</li><li>Edge Computing</li><li>Blockchain/Web3</li></ul>'
+            }
+        ];
+
+        function init() {
+            renderNav();
+            renderChapters();
+            showChapter('ch1');
+        }
+
+        function renderNav() {
+            const nav = document.getElementById('navContainer');
+            chaptersData.forEach(ch => {
+                const btn = document.createElement('button');
+                btn.textContent = 'Ch ' + ch.num;
+                btn.onclick = () => showChapter(ch.id);
+                btn.id = 'btn-' + ch.id;
+                nav.appendChild(btn);
+            });
+        }
+
+        function renderChapters() {
+            const container = document.getElementById('chaptersContainer');
+            chaptersData.forEach(ch => {
+                const div = document.createElement('section');
+                div.id = ch.id;
+                div.className = 'chapter';
+                div.innerHTML = '<h2>' + ch.title + '</h2>' + ch.content;
+                container.appendChild(div);
+            });
+        }
+
+        function showChapter(id) {
+            document.querySelectorAll('.chapter').forEach(ch => ch.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+            
+            const chapter = document.getElementById(id);
+            if (chapter) chapter.classList.add('active');
+            
+            const btn = document.getElementById('btn-' + id);
+            if (btn) btn.classList.add('active');
+            
+            window.scrollTo(0, 0);
+        }
+
+        function showGreeting() {
             const name = document.getElementById('nameInput').value;
-            const greetingMessage = document.getElementById('greetingMessage');
-            if(name) {
-                greetingMessage.textContent = `Hello, ${name}! Welcome to our website!`;
+            const email = document.getElementById('emailInput').value;
+            const msg = document.getElementById('greetingMessage');
+            
+            if (name && email) {
+                msg.textContent = 'Welcome, ' + name + '! Your account (' + email + ') is registered.';
+            } else if (name) {
+                msg.textContent = 'Hi ' + name + '! Please enter your email too.';
             } else {
-                greetingMessage.textContent = 'Please enter your name to receive a greeting.';
+                msg.textContent = 'Please enter your name and email.';
             }
         }
 
+        // Initialize when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
     </script>
 </body>
-</html> 
+</html>
